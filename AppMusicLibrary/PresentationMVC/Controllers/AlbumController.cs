@@ -21,14 +21,7 @@ namespace PresentationMVC.Controllers
         // GET: Album
         public async Task<IActionResult> Index()
         {
-            var albuns = await _albumService.GetAllAsync();
-
-            if (albuns == null)
-            {
-                return NotFound();
-            }
-
-            return View(albuns);
+            return View(await _albumService.GetAllAsync());
         }
 
         // GET: Album/Details/5
@@ -58,11 +51,11 @@ namespace PresentationMVC.Controllers
         // POST: Album/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AlbumEntity albumEntity, IFormFile  formFiile)
+        public async Task<IActionResult> Create(AlbumEntity albumEntity, IFormFile  ImageFile)
         {
             if (ModelState.IsValid)
             {
-                await _albumService.InsertAsync(albumEntity, formFiile.OpenReadStream());
+                await _albumService.InsertAsync(albumEntity, ImageFile.OpenReadStream());
 
                 return RedirectToAction(nameof(Index));
             }

@@ -11,7 +11,7 @@ namespace Infrastructure.Services.Blob
     public class BlobService : IBlobService
     {
         private readonly BlobServiceClient _blobServiceClient;
-        private const string _container = "imagensalbum";
+        private const string _container = "jpg";
 
         public BlobService(string storageAccount)
         {
