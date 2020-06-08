@@ -2,27 +2,55 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.Model.Entities;
+using Domain.Model.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace PresentationMVC.Controllers
 {
     public class AlbumController : Controller
     {
-        // GET: Album
-        public ActionResult Index()
+        private readonly IAlbumService _albumService;
+
+        public AlbumController(IAlbumService albumService)
         {
-            return View();
+            _albumService = albumService;
+        }
+        // GET: Album
+        public async Task<IActionResult> Index()
+        {
+            var albuns = await _albumService.GetAllAsync();
+
+            if (albuns == null)
+            {
+                return NotFound();
+            }
+
+            return View(albuns);
         }
 
         // GET: Album/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> Details(int? id)
         {
-            return View();
+            if (id == null) 
+            {
+                return NotFound();
+            }
+
+            var albumEntity = await _albumService.GetByIdAsync(id.Value);
+
+            if (albumEntity == null)
+            {
+                return NotFound();
+            }
+
+            return View(albumEntity);
         }
 
         // GET: Album/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
             return View();
         }
@@ -30,64 +58,97 @@ namespace PresentationMVC.Controllers
         // POST: Album/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create(AlbumEntity albumEntity, IFormFile  formFiile)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
+                await _albumService.InsertAsync(albumEntity, formFiile.OpenReadStream());
 
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(albumEntity);
         }
 
         // GET: Album/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var albumEntity = await _albumService.GetByIdAsync(id.Value);
+            if (albumEntity == null)
+            {
+                return NotFound();
+            }
+            return View(albumEntity);
         }
 
         // POST: Album/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id, AlbumEntity albumEntity)
         {
-            try
+            if (id != albumEntity.Id)
             {
-                // TODO: Add update logic here
+                return NotFound();
+            }
 
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var file = Request.Form.Files.SingleOrDefault();
+
+                    await _albumService.UpdateAsync(albumEntity, file?.OpenReadStream());
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AlbumEntityExists(albumEntity.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(albumEntity);
         }
 
         // GET: Album/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var albumEntity = await _albumService.GetByIdAsync(id.Value);
+            if (albumEntity == null)
+            {
+                return NotFound();
+            }
+
+            return View(albumEntity);
         }
 
         // POST: Album/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> Delete(int id)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            var amigoEntity = await _albumService.GetByIdAsync(id);
+            await _albumService.DeleteAsync(amigoEntity);
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool AlbumEntityExists(int id)
+        {
+            return _albumService.GetByIdAsync(id) != null;
         }
     }
 }
