@@ -14,34 +14,17 @@ namespace Domain.Services.Services
     public class AlbumService : IAlbumService
     {
         private readonly IAlbumRepository _repository;
-        private readonly IBlobService _blob;
         private readonly IQueueMessage _queue;
 
         public AlbumService(
             IAlbumRepository albumRepository,
-            IBlobService blobService,
             IQueueMessage queueMessage)
         {
             _repository = albumRepository;
-            _blob = blobService;
             _queue = queueMessage;
         }
         public async Task DeleteAsync(AlbumEntity albumEntity)
         {
-            await _blob.DeleteAsync(albumEntity.ImageUri);
-
-            var email = new
-            {
-                Assunto = $"Exclusão de um album {albumEntity.Nome}",
-                Corpo = $"Um album seu foi excluído. O nome do seu album excluído é: {albumEntity.Nome}",
-                EmailPara = "rodrigo.araujo@infnet.edu.br"
-            };
-            var jsonEmail = JsonConvert.SerializeObject(email);
-            var bytesJsonEmail = UTF8Encoding.UTF8.GetBytes(jsonEmail);
-            string jsonEmailBase64 = Convert.ToBase64String(bytesJsonEmail);
-
-            await _queue.SendAsync(jsonEmailBase64);
-
             await _repository.DeleteAsync(albumEntity);
         }
 
@@ -55,23 +38,25 @@ namespace Domain.Services.Services
             return await _repository.GetByIdAsync(id);
         }
 
-        public async Task InsertAsync(AlbumEntity albumEntity, Stream stream)
+        public async Task InsertAsync(AlbumEntity albumEntity)
         {
-            var newUri = await _blob.UploadAsync(stream);
-            albumEntity.ImageUri = newUri;
             await _repository.InsertAsync(albumEntity);
+
+            var message = new
+            {
+                ImageUri = albumEntity.ImageUri,
+                Id = $"{albumEntity.Id}",
+            };
+
+            var jsonMessage = JsonConvert.SerializeObject(message);
+            var bytesJsonMessage = UTF8Encoding.UTF8.GetBytes(jsonMessage);
+            string jsonMessageBase64 = Convert.ToBase64String(bytesJsonMessage);
+
+            await _queue.SendAsync(jsonMessageBase64);
         }
 
-        public async Task UpdateAsync(AlbumEntity albumEntity, Stream stream)
+        public async Task UpdateAsync(AlbumEntity albumEntity)
         {
-            if (stream != null)
-            {
-                await _blob.DeleteAsync(albumEntity.ImageUri);
-
-                var newUri = await _blob.UploadAsync(stream);
-                albumEntity.ImageUri = newUri;
-            }
-
             await _repository.UpdateAsync(albumEntity);
         }
     }

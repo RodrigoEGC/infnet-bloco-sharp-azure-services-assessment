@@ -9,8 +9,8 @@ namespace Domain.Model.Interfaces.Services
     {
         Task<IEnumerable<AlbumEntity>> GetAllAsync();
         Task<AlbumEntity> GetByIdAsync(int id);
-        Task InsertAsync(AlbumEntity albumEntity, Stream stream);
-        Task UpdateAsync(AlbumEntity albumEntity, Stream stream);
+        Task InsertAsync(AlbumEntity albumEntity);
+        Task UpdateAsync(AlbumEntity albumEntity);
         Task DeleteAsync(AlbumEntity albumEntity);
     }
 }

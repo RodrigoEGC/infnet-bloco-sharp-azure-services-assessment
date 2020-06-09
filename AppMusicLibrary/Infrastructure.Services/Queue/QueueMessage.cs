@@ -1,8 +1,5 @@
 ﻿using Azure.Storage.Queues;
 using Domain.Model.Interfaces.Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Services.Queue
@@ -10,7 +7,7 @@ namespace Infrastructure.Services.Queue
     public class QueueMessage : IQueueMessage
     {
         private readonly QueueServiceClient _queueServiceClient;
-        private const string _queueName = "filaemail";
+        private const string _queueName = "queue-image-insert";
 
         public QueueMessage(string storageAccount)
         {

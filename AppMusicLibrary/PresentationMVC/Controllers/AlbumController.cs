@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Domain.Model.Entities;
 using Domain.Model.Interfaces.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -51,11 +47,11 @@ namespace PresentationMVC.Controllers
         // POST: Album/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(AlbumEntity albumEntity, IFormFile  ImageFile)
+        public async Task<IActionResult> Create(AlbumEntity albumEntity)
         {
             if (ModelState.IsValid)
             {
-                await _albumService.InsertAsync(albumEntity, ImageFile.OpenReadStream());
+                await _albumService.InsertAsync(albumEntity);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -87,13 +83,12 @@ namespace PresentationMVC.Controllers
                 return NotFound();
             }
 
+
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var file = Request.Form.Files.SingleOrDefault();
-
-                    await _albumService.UpdateAsync(albumEntity, file?.OpenReadStream());
+                    await _albumService.UpdateAsync(albumEntity);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

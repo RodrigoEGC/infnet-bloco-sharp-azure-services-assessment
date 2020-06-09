@@ -4,7 +4,6 @@ using Domain.Model.Interfaces.Services;
 using Domain.Services.Services;
 using Infrastructure.Data.Context;
 using Infrastructure.Data.Repositories;
-using Infrastructure.Services.Blob;
 using Infrastructure.Services.Queue;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -24,11 +23,8 @@ namespace Infrastructure.IoC
             services.AddScoped<IAlbumRepository, AlbumRepository>();
             services.AddScoped<IAlbumService, AlbumService>();
 
-            services.AddScoped<IBlobService, BlobService>(provider =>
-            new BlobService(configuration.GetValue<string>("ConnectionStringStorageAccount")));
-
             services.AddScoped<IQueueMessage, QueueMessage>(provider =>
-                new QueueMessage(configuration.GetValue<string>("ConnectionStringStorageAccount")));
+                new QueueMessage(configuration.GetValue<string>("StorageAccount")));
 
         }
     }
