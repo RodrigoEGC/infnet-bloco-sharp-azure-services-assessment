@@ -2,7 +2,132 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<div class="content">
+        <div class="container">
+            
+            <!--content-top-->
+            <div class="content-top">
+                <div class="col-md-7 content-top1">
+                    <h3>Bem-Vindo</h3>
+                    <p>
+                        Neste WebSite, como teste de aprendizado do curso de Engenharia de Computação do Instituto Infnet, na grade de Desenvolvimento .NET.
+                        Foi proposto criar um projeto do tipo ASP.NET Core Web MVC, com um CRUD básico (listagem, detalhe, inclusão, alteração, exclusão) cuja entidade tenha pelo menos cinco atributos diferentes (incluindo o endereço web de uma imagem), dos quais pelo menos três dos atributos devem possuir tipos diferentes. As operações do CRUD devem persistir os dados da entidade em um banco de dados SQL do Azure.
+
+                        Na operação de inclusão, a aplicação deve ser capaz de enviar uma mensagem para uma fila (dentro da mensagem deve conter o endereço web da imagem). Esta fila deve ser consumida por uma function, o qual deve ser capaz de armazenar uma imagem como Blob no Azure. A página de detalhe deve ser capaz de exibir a imagem.
+
+                    </p>
+                </div>
+                <div class="col-md-5 top-col">
+                    <div class="col1">
+                        <div class="col-md-6 col2">
+                            <img src="~/layouts_style/images/ic.png" alt="">
+                        </div>
+                        <div class="col-md-6 col3">
+                            <img src="~/layouts_style/images/ic1.png" alt="">
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="col1">
+                        <div class="col-md-6 col4">
+                            <img src="~/layouts_style/images/ic2.png" alt="">
+                        </div>
+                        <div class="col-md-6 col5">
+                            <img src="~/layouts_style/images/ic3.png" alt="">
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <!--//content-top-->
+            <!--content-mid-->
+            <div class="content-mid">
+                <div class="col-md-4 mid">
+                    <a href="#">
+                        <img style="width:400px; height:274px;" src="~/layouts_style/images/1.jpg" alt="" class="img-responsive">
+                        <div class="mid1">
+                            <h4>Álbuns</h4>
+                            <i class="glyphicon glyphicon-circle-arrow-right"></i>
+                            <div class="clearfix"> </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4 mid">
+                    <a href="#">
+                        <img style="width:400px; height:274px;" src="~/layouts_style/images/2.jpg" alt="" class="img-responsive">
+                        <div class="mid1">
+                            <h4>Álbuns</h4>
+                            <i class="glyphicon glyphicon-circle-arrow-right"></i>
+                            <div class="clearfix"> </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4 mid">
+                    <a href="#">
+                        <img style="width:400px; height:274px;" src="~/layouts_style/images/4.jpg" alt="" class="img-responsive">
+                        <div class="mid1">
+                            <h4>Álbuns</h4>
+                            <i class="glyphicon glyphicon-circle-arrow-right"></i>
+                            <div class="clearfix"> </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+            <!--content-mid-->
+        </div>
+        <div class="content-middle">
+            <div class="container">
+                <div class="content-mid-top">
+                    <h3> Professor</h3>
+                </div>
+                <div class="news">
+                    <div class="col-md-6 new-more">
+                        <div class=" new-more1">
+                            <div class="col-md-2 six">
+                                <img class="img-responsive" src="~/layouts_style/images/jcnet.jfif" alt="">
+                            </div>
+                            <div class="col-md-10 six1">
+                                <h5>Júlio César Guimarães</h5>
+                                <p>
+                                    Quem é Júlio César Guimarães ?
+                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                                    when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+                                    It has survived not only five centuries, but also the leap into electronic typesetting, 
+                                    remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, 
+                                    and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                                </p>
+                                <a href="#"><i class="glyphicon glyphicon-circle-arrow-right"></i></a>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                </div>
+            </div>
+        </div>
+        <!---->
+        <div class="content-bottom">
+            <div class="container">
+                <div class="content-bottom-top">
+                    <div class="col-md-6 content-bottom-top1">
+                        <h3>Rodrigo Araújo</h3>
+                        <p>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
+                            when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+                            It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. 
+                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop 
+                            publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </p>
+                    </div>
+                    <div class="col-md-6 bottom-co1">
+                        <img style="width:400px; height:400px;" class="img-responsive" src="~/layouts_style/images/3.jpg" alt="">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!---->
+    </div>

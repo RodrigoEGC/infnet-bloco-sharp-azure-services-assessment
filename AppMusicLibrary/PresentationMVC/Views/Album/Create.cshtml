@@ -3,44 +3,52 @@
 @{
     ViewData["Title"] = "Create";
 }
-
-<h1>Create</h1>
-
-<h4>AlbumEntity</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Nome" class="control-label"></label>
-                <input asp-for="Nome" class="form-control" />
-                <span asp-validation-for="Nome" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DataLancamento" class="control-label"></label>
-                <input asp-for="DataLancamento" class="form-control" />
-                <span asp-validation-for="DataLancamento" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Remasterizado" /> @Html.DisplayNameFor(model => model.Remasterizado)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageUri" class="control-label"></label>
-                <input asp-for="ImageUri" class="form-control" />
-                <span asp-validation-for="ImageUri" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="content-top">
+    <div class="col-md-7 content-top1">
+        <h1>Create</h1>
+    </div>
+    <div class="col-md-5 top-col">
+        <h4>AlbumEntity</h4>
     </div>
 </div>
+<hr />
+<div class="content-mid">
+    <div class="col-xl-12 mid">
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Nome" class="control-label"></label>
+                        <input asp-for="Nome" class="form-control" />
+                        <span asp-validation-for="Nome" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DataLancamento" class="control-label"></label>
+                        <input asp-for="DataLancamento" class="form-control" />
+                        <span asp-validation-for="DataLancamento" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="Remasterizado" /> @Html.DisplayNameFor(model => model.Remasterizado)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ImageUri" class="control-label"></label>
+                        <input asp-for="ImageUri" class="form-control" />
+                        <span asp-validation-for="ImageUri" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
