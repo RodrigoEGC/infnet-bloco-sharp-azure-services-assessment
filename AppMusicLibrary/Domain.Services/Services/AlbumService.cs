@@ -15,17 +15,28 @@ namespace Domain.Services.Services
     {
         private readonly IAlbumRepository _repository;
         private readonly IQueueMessage _queue;
+        private readonly IAlbumHistoricoRepository _historicoRepository;
 
         public AlbumService(
             IAlbumRepository albumRepository,
-            IQueueMessage queueMessage)
+            IQueueMessage queueMessage,
+            IAlbumHistoricoRepository albumHistoricoRepository)
         {
             _repository = albumRepository;
             _queue = queueMessage;
+            _historicoRepository = albumHistoricoRepository;
+        }
+        public async Task<IEnumerable<AlbumHistoricoEntity>> GetLogsAsync(string pesquisa)
+        {
+            return await _historicoRepository.GetByPartitionKeyAsync(pesquisa);
         }
         public async Task DeleteAsync(AlbumEntity albumEntity)
         {
             await _repository.DeleteAsync(albumEntity);
+
+            var partitionName = "delete";
+
+            await _historicoRepository.InsertAsync(new AlbumHistoricoEntity(albumEntity, partitionName));
         }
 
         public async Task<IEnumerable<AlbumEntity>> GetAllAsync()
@@ -53,11 +64,19 @@ namespace Domain.Services.Services
             string jsonMessageBase64 = Convert.ToBase64String(bytesJsonMessage);
 
             await _queue.SendAsync(jsonMessageBase64);
+
+            var partitionName = "insert";
+
+            await _historicoRepository.InsertAsync(new AlbumHistoricoEntity(albumEntity, partitionName));
         }
 
         public async Task UpdateAsync(AlbumEntity albumEntity)
         {
             await _repository.UpdateAsync(albumEntity);
+
+            var parttionName = "update";
+
+            await _historicoRepository.UpdateAsync(new AlbumHistoricoEntity(albumEntity, parttionName));
         }
     }
 }

@@ -26,6 +26,9 @@ namespace Infrastructure.IoC
             services.AddScoped<IQueueMessage, QueueMessage>(provider =>
                 new QueueMessage(configuration.GetValue<string>("StorageAccount")));
 
+            services.AddScoped<IAlbumHistoricoRepository, AlbumHistoricoRepository>(provider =>
+                new AlbumHistoricoRepository(configuration.GetValue<string>("StorageAccount")));
+
         }
     }
 }

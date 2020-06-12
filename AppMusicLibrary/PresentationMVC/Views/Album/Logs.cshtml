@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Domain.Model.Entities.AlbumHistoricoEntity>
+
+@{
+    ViewData["Title"] = "Logs";
+}
+
+<div class="content-top">
+    <div class="col-md-7 content-top1">
+        <h1>Logs</h1>
+    </div>
+    <div class="col-md-5 top-col">
+        <form asp-action="Logs">
+            @*<label class="control-label">Pesquisa</label>
+            <input name="pesquisa" class="form-control" />*@
+            <select name="pesquisa">
+                <option class="control-label" value="">Selecione um item</option>
+                <option class="form-control" value="insert">Insert</option>
+                <option class="form-control" value="update">Update</option>
+                <option class="form-control" value="delete">Delete</option>
+            </select>
+            <input type="submit" value="Consultar" class="btn btn-primary" />
+        </form>
+    </div>
+</div>
+<div class="content-mid">
+    <div class="col-xl-12 mid">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Nome)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DataLancamento)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Remasterizado)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nome)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DataLancamento)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Remasterizado)
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+
+                    }
+            </tbody>
+        </table>
+    </div>
+</div>
