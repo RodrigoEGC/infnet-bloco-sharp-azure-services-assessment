@@ -141,8 +141,8 @@ namespace PresentationMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            var amigoEntity = await _albumService.GetByIdAsync(id);
-            await _albumService.DeleteAsync(amigoEntity);
+            var albumEntity = await _albumService.GetByIdAsync(id);
+            await _albumService.DeleteAsync(albumEntity);
 
             return RedirectToAction(nameof(Index));
         }

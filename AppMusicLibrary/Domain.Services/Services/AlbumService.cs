@@ -30,25 +30,14 @@ namespace Domain.Services.Services
         {
             return await _historicoRepository.GetByPartitionKeyAsync(pesquisa);
         }
-        public async Task DeleteAsync(AlbumEntity albumEntity)
-        {
-            await _repository.DeleteAsync(albumEntity);
-
-            var partitionName = "delete";
-
-            await _historicoRepository.InsertAsync(new AlbumHistoricoEntity(albumEntity, partitionName));
-        }
-
         public async Task<IEnumerable<AlbumEntity>> GetAllAsync()
         {
             return await _repository.GetAllAsync();
         }
-
         public async Task<AlbumEntity> GetByIdAsync(int id)
         {
             return await _repository.GetByIdAsync(id);
         }
-
         public async Task InsertAsync(AlbumEntity albumEntity)
         {
             await _repository.InsertAsync(albumEntity);
@@ -69,14 +58,49 @@ namespace Domain.Services.Services
 
             await _historicoRepository.InsertAsync(new AlbumHistoricoEntity(albumEntity, partitionName));
         }
-
         public async Task UpdateAsync(AlbumEntity albumEntity)
         {
+            if (albumEntity.ImageUri != null)
+            {
+                await _queue.DeleteAsync(albumEntity.ImageUri);
+
+                var message = new
+                {
+                    ImageUri = albumEntity.ImageUri,
+                    Id = $"{albumEntity.Id}",
+                };
+
+                var jsonMessage = JsonConvert.SerializeObject(message);
+                var bytesJsonMessage = UTF8Encoding.UTF8.GetBytes(jsonMessage);
+                string jsonMessageBase64 = Convert.ToBase64String(bytesJsonMessage);
+
+                await _queue.SendAsync(jsonMessageBase64);
+            } 
             await _repository.UpdateAsync(albumEntity);
 
             var parttionName = "update";
 
             await _historicoRepository.UpdateAsync(new AlbumHistoricoEntity(albumEntity, parttionName));
+        }
+        public async Task DeleteAsync(AlbumEntity albumEntity)
+        {
+            await _repository.DeleteAsync(albumEntity);
+
+            var message = new
+            {
+                ImageUri = albumEntity.ImageUri,
+                Id = $"{albumEntity.Id}",
+            };
+
+            var jsonMessage = JsonConvert.SerializeObject(message);
+            var bytesJsonMessage = UTF8Encoding.UTF8.GetBytes(jsonMessage);
+            string jsonMessageBase64 = Convert.ToBase64String(bytesJsonMessage);
+
+            await _queue.DeleteAsync(jsonMessageBase64);
+
+            var partitionName = "delete";
+
+            await _historicoRepository.InsertAsync(new AlbumHistoricoEntity(albumEntity, partitionName));
         }
     }
 }
