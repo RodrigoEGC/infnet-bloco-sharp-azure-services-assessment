@@ -10,7 +10,8 @@ ASSESSMENT [OBRIGATÓRIO]
 Nesse Assessment, você deverá criar uma aplicação web (MVC) usando todos esses principais serviços que você 
 aprendeu nessa disciplina.
 
-Você deve criar um projeto do tipo ASP.NET Core Web Mvc com um CRUD básico (listagem, detalhe, inclusão, alteração, exclusão) 
+Você deve criar um projeto do tipo ASP.NET Core Web Mvc com um CRUD básico 
+(listagem, detalhe, inclusão, alteração, exclusão) 
 cuja entidade tenha pelo menos cinco atributos diferentes, dos quais pelo menos três dos atributos 
 devem possuir tipos diferentes.
 
@@ -23,7 +24,9 @@ Esta fila deve ser consumida por uma function, o qual deve ser capaz de armazena
 Esta função deve redimensionar a imagem em tamanho menor (miniatura) antes de armazená-la em um Blob. 
 A página de detalhe deve ser capaz de exibir a imagem.
 
-Caso seja informada uma nova imagem na operação de alteração, a aplicação deve ser capaz de primeiramente enviar uma mensagem para uma outra fila (exclusão), que deve ser consumida por uma function para exclusão do blob (imagem antiga). 
+Caso seja informada uma nova imagem na operação de alteração, 
+a aplicação deve ser capaz de primeiramente enviar uma mensagem para uma outra fila (exclusão), 
+que deve ser consumida por uma function para exclusão do blob (imagem antiga). 
 
 Logo em seguida, a aplicação deve ser capaz de enviar uma mensagem (contendo a o endereço da imagem nova) 
 para a mesma fila utilizada na operação de inclusão.
