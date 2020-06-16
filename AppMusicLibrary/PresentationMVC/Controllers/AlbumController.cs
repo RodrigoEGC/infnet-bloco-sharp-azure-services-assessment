@@ -14,6 +14,19 @@ namespace PresentationMVC.Controllers
         {
             _albumService = albumService;
         }
+        public async Task<IActionResult> Logs(string pesquisa)
+        {
+            if (pesquisa == null)
+            {
+                return View(null);
+            }
+            else
+            {
+                return View(await _albumService.GetLogsAsync(pesquisa));
+            }
+
+        }
+
         // GET: Album
         public async Task<IActionResult> Index()
         {
@@ -128,8 +141,8 @@ namespace PresentationMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            var amigoEntity = await _albumService.GetByIdAsync(id);
-            await _albumService.DeleteAsync(amigoEntity);
+            var albumEntity = await _albumService.GetByIdAsync(id);
+            await _albumService.DeleteAsync(albumEntity);
 
             return RedirectToAction(nameof(Index));
         }

@@ -13,6 +13,7 @@ namespace Infrastructure.IoC
 {
     public class DependencyInjectorHelper
     {
+        private const string _connectionStorage = "StorageAccount";
         public static void Register(
             IServiceCollection services,
             IConfiguration configuration)
@@ -24,7 +25,10 @@ namespace Infrastructure.IoC
             services.AddScoped<IAlbumService, AlbumService>();
 
             services.AddScoped<IQueueMessage, QueueMessage>(provider =>
-                new QueueMessage(configuration.GetValue<string>("StorageAccount")));
+                new QueueMessage(configuration.GetValue<string>(_connectionStorage)));
+
+            services.AddScoped<IAlbumHistoricoRepository, AlbumHistoricoRepository>(provider =>
+                new AlbumHistoricoRepository(configuration.GetValue<string>(_connectionStorage)));
 
         }
     }
