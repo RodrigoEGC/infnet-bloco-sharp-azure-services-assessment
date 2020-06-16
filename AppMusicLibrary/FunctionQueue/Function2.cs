@@ -1,6 +1,8 @@
-﻿using Microsoft.Azure.Storage.Blob;
+﻿using Microsoft.Azure.Cosmos.Table;
+using Microsoft.Azure.Storage.Blob;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using Microsoft.WindowsAzure.Storage.Queue;
 using System;
 using System.Data.SqlClient;
 using System.IO;
@@ -18,12 +20,9 @@ namespace FunctionQueue
             ILogger log)
         {
             log.LogInformation($"Função ativada!");
-            using var webClient = new WebClient();
-            byte[] imageBytes = webClient.DownloadData(message.ImageUri.ToString());
-
-            var blobAtributte = new BlobAttribute($"imagens/{Guid.NewGuid()}.jpg", FileAccess.Write);
+            var blobAtributte = new BlobAttribute(message.ImageUri, FileAccess.Read);
             var cloudBlobStream = await binder.BindAsync<ICloudBlob>(blobAtributte);
-            await cloudBlobStream.UploadFromByteArrayAsync(imageBytes, 0, imageBytes.Length);
+            await cloudBlobStream.DeleteIfExistsAsync();
             await cloudBlobStream.Container.SetPermissionsAsync(new BlobContainerPermissions() { PublicAccess = BlobContainerPublicAccessType.Blob });
 
             var connectionString = Environment.GetEnvironmentVariable("SqlConnectionString");
@@ -31,7 +30,7 @@ namespace FunctionQueue
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                var textSql = $@"DELETE [dbo].[BibliotecaMusical] SET [ImageUri] = '{cloudBlobStream.Uri}' WHERE Id = {message.Id}";
+                var textSql = $@"DELETE FROM [dbo].[BibliotecaMusical] WHERE Id = {message.Id}";
 
                 using (SqlCommand cmd = new SqlCommand(textSql, conn))
                 {

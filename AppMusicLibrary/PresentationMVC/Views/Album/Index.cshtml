@@ -9,7 +9,7 @@
     </div>
     <div class="col-md-5 top-col">
         <p>
-            <a asp-action="Create">Create New</a>
+            <a class="btn btn-light" asp-action="Create">Create New</a>
         </p>
     </div>
  </div>
@@ -50,9 +50,9 @@
                             @Html.DisplayFor(modelItem => item.Remasterizado)
                         </td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         </td>
                     </tr>
                 }
